@@ -11,5 +11,7 @@
     <div th:each="note : ${notes}">
         <a th:href="@{notes/{id}(id=${note.getId()})}" th:text="${note.getHeader()}"/>
     </div>
+    <hr/>
+    <a th:href="@{notes/new}">Новая заметка</a>
 </body>
 </html>

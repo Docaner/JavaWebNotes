@@ -10,5 +10,13 @@
 <body>
     <h1 th:text="${note.getHeader()}"></h1>
     <p th:text="${note.getContent()}"></p>
+
+    <form th:method="GET" th:action="@{/notes/{id}/edit(id=${note.getId()})}">
+        <input type="submit" value="Изменить">
+    </form>
+
+    <form th:method="DELETE" th:action="@{/notes/{id}(id=${note.getId()})}">
+        <input type="submit" value="Удалить"/>
+    </form>
 </body>
 </html>

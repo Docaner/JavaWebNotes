@@ -29,4 +29,15 @@ public class NoteDAO {
         note.setId(++NOTE_INDEX);
         notes.add(note);
     }
+
+    public void update(int id, Note note){
+        Note noteToUpdate = show(id);
+
+        noteToUpdate.setHeader(note.getHeader());
+        noteToUpdate.setContent(note.getContent());
+    }
+
+    public void delete(int id){
+        notes.removeIf(note -> id == note.getId());
+    }
 }

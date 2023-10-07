@@ -1,16 +1,9 @@
 package ru.csomod.notes.config;
 
-import jakarta.servlet.*;
-import jakarta.servlet.annotation.WebFilter;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.filter.CharacterEncodingFilter;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 public class NoteDispatcherSerlvetInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -29,9 +22,14 @@ public class NoteDispatcherSerlvetInitializer extends AbstractAnnotationConfigDi
         return new String[] {"/"};
     }
 
-    /*@Override
-    protected Filter[] getServletFilters() {
-        return new Filter[] {
-                new HiddenHttpMethodFilter(), new CharsetFilter() };
-    }*/
+    @Override
+    public void onStartup(ServletContext aServletContext) throws ServletException {
+        super.onStartup(aServletContext);
+        registerHiddenFieldFilter(aServletContext);
+    }
+
+    private void registerHiddenFieldFilter(ServletContext aContext) {
+        aContext.addFilter("hiddenHttpMethodFilter",
+                new HiddenHttpMethodFilter()).addMappingForUrlPatterns(null ,true, "/*");
+    }
 }

@@ -1,6 +1,5 @@
 package ru.csomod.notes.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +25,7 @@ public class NoteController {
     @GetMapping()
     public String index(Model model){
         model.addAttribute("notes", noteDAO.index());
-        return "note/index";
+        return "notes/index";
     }
 
     /**
@@ -38,17 +37,35 @@ public class NoteController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("note", noteDAO.show(id));
-        return "note/show";
+        return "notes/show";
     }
 
     @GetMapping("/new")
     public String newNote(@ModelAttribute("note") Note note){
-        return "note/new";
+        return "notes/new";
     }
 
     @PostMapping()
     public String create(@ModelAttribute("note") Note note){
         noteDAO.safe(note);
+        return "redirect:/notes";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable("id") int id){
+        model.addAttribute("note", noteDAO.show(id));
+        return "notes/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("note") Note note, @PathVariable("id") int id){
+        noteDAO.update(id, note);
+        return "redirect:/notes";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id){
+        noteDAO.delete(id);
         return "redirect:/notes";
     }
 }
