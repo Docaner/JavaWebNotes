@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Новая заметка</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/notes}" th:object="${note}">
+
+    <label for="header">Название: </label>
+    <input type="text" th:field="*{header}" id="header"/>
+
+    <br/>
+
+    <label for="content">Контент: </label>
+    <input type="text" th:field="*{content}" id="content"/>
+
+    <br/>
+
+    <input type="submit" value="Создать">
+</form>
+</body>
+</html>

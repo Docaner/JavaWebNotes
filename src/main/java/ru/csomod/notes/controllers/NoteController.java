@@ -1,37 +1,54 @@
 package ru.csomod.notes.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.io.UnsupportedEncodingException;
+import org.springframework.web.bind.annotation.*;
+import ru.csomod.notes.dao.NoteDAO;
+import ru.csomod.notes.models.Note;
 
 @Controller
-@RequestMapping("/note")
+@RequestMapping("/notes")
 public class NoteController {
 
-
-    @GetMapping("/post")
-    public String postNote(@RequestParam(required = false) String header,
-                          @RequestParam(required = false) String content, Model model) {
-        System.out.println("Заголовок: " + header + "\nContent: " + content);
-        model.addAttribute("header", header);
-        model.addAttribute("content", content);
-        return "note/post";
+    private final NoteDAO noteDAO;
+    @Autowired
+    public NoteController(NoteDAO noteDAO) {
+        this.noteDAO = noteDAO;
     }
 
-    @GetMapping("/get")
-    public String getNote(Model model){
-        model.addAttribute("header", "Заголовок 1");
-        model.addAttribute("content", "Контент 2");
-        return "note/get";
+    /**
+     * Получение всех заметок
+     * @param model модель
+     * @return путь на html-представление
+     */
+    @GetMapping()
+    public String index(Model model){
+        model.addAttribute("notes", noteDAO.index());
+        return "note/index";
     }
 
-    @GetMapping("/list")
-    public String getNotes() {
-        return "note/post";
+    /**
+     * Получение одной заметки
+     * @param id идентификатор заметки
+     * @param model модель
+     * @return путь на html-представление
+     */
+    @GetMapping("/{id}")
+    public String show(@PathVariable("id") int id, Model model) {
+        model.addAttribute("note", noteDAO.show(id));
+        return "note/show";
+    }
+
+    @GetMapping("/new")
+    public String newNote(@ModelAttribute("note") Note note){
+        return "note/new";
+    }
+
+    @PostMapping()
+    public String create(@ModelAttribute("note") Note note){
+        noteDAO.safe(note);
+        return "redirect:/notes";
     }
 }
