@@ -2,11 +2,9 @@ package ru.csomod.notes.dao;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
-import ru.csomod.notes.config.DataBaseSettings;
 import ru.csomod.notes.models.Note;
 
 import java.util.List;
@@ -25,7 +23,7 @@ public class NoteDAO {
 
     @PostConstruct
     private void initializer(){
-        jdbcTemplate.update("CREATE TABLE IF NOT EXISTS "+table+" (id INT, header VARCHAR, content VARCHAR)");
+        jdbcTemplate.update("CREATE TABLE IF NOT EXISTS "+table+" (id SERIAL PRIMARY KEY, header VARCHAR, content VARCHAR)");
     }
 
     public List<Note> index() {
@@ -38,7 +36,7 @@ public class NoteDAO {
     }
 
     public void safe(Note note){
-        jdbcTemplate.update("INSERT INTO "+table+" VALUES (1, ?, ?)", note.getHeader(), note.getContent());
+        jdbcTemplate.update("INSERT INTO "+table+" (header, content) VALUES (?, ?)", note.getHeader(), note.getContent());
     }
 
     public void update(int id, Note note){

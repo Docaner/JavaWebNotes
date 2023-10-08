@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:notes.properties")
-public class DataBaseSettings {
+@PropertySource("classpath:db.properties")
+public class DataBaseConfig {
     @Value("${db.host}")
     private String host;
     @Value("${db.port}")

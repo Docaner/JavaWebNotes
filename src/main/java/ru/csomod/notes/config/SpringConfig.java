@@ -2,7 +2,6 @@ package ru.csomod.notes.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -59,19 +58,19 @@ public class SpringConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public DataBaseSettings getDBSettings(){
-        return new DataBaseSettings();
+    public DataBaseConfig getDBConfig(){
+        return new DataBaseConfig();
     }
 
     @Bean
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        DataBaseSettings dataBaseSettings = getDBSettings();
+        DataBaseConfig dataBaseConfig = getDBConfig();
 
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://" + dataBaseSettings.getHost() + ":" + dataBaseSettings.getPort() + "/" + dataBaseSettings.getDb());
-        dataSource.setUsername(dataBaseSettings.getUser());
-        dataSource.setPassword(dataBaseSettings.getPassword());
+        dataSource.setUrl("jdbc:postgresql://" + dataBaseConfig.getHost() + ":" + dataBaseConfig.getPort() + "/" + dataBaseConfig.getDb());
+        dataSource.setUsername(dataBaseConfig.getUser());
+        dataSource.setPassword(dataBaseConfig.getPassword());
 
         return dataSource;
     }
@@ -83,6 +82,6 @@ public class SpringConfig implements WebMvcConfigurer {
 
     @Bean
     public String getTable() {
-        return getDBSettings().getTable();
+        return getDBConfig().getTable();
     }
 }
