@@ -2,6 +2,9 @@ package ru.csomod.notes.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
+
+import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan("ru.csomod.notes")
@@ -51,5 +56,33 @@ public class SpringConfig implements WebMvcConfigurer {
         resolver.setViewNames(new String[] {"*"});
         resolver.setCharacterEncoding("UTF-8");
         registry.viewResolver(resolver);
+    }
+
+    @Bean
+    public DataBaseSettings getDBSettings(){
+        return new DataBaseSettings();
+    }
+
+    @Bean
+    public DataSource dataSource(){
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        DataBaseSettings dataBaseSettings = getDBSettings();
+
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl("jdbc:postgresql://" + dataBaseSettings.getHost() + ":" + dataBaseSettings.getPort() + "/" + dataBaseSettings.getDb());
+        dataSource.setUsername(dataBaseSettings.getUser());
+        dataSource.setPassword(dataBaseSettings.getPassword());
+
+        return dataSource;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(){
+        return new JdbcTemplate(dataSource());
+    }
+
+    @Bean
+    public String getTable() {
+        return getDBSettings().getTable();
     }
 }
