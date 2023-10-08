@@ -17,13 +17,13 @@ db.host=localhost
 #Порт
 db.port=5432
 #База данных
-db.base=notedb
+db.base=postgres
 #Пользователь
 db.user=postgres
 #Пароль
 db.pass=postgres
 #Таблица
-db.table=postgres
+db.table=note
 ```
 4) Установить [Tomcat 10.1.13](https://tomcat.apache.org/download-10.cgi) или взять из проекта `../tomcat-server`. Внутри проекта указать путь до сервера. Для этого перейти в `Main menu -> Run -> Run...`. Выбрать `Edit configuration...`. Если в проекте уже указан путь до tomcat, то его необходимо удалить. Далее `Add new configuration -> Tomcat Server Local`. После нажать `Configure...` и указать путь до Tomcat. В конце необходимо нажать на `Fix`.
 ![](https://sun9-74.userapi.com/impg/JLFvEC0d5xlXCZnWi_6Tei-JzEQmoPwTebSANw/kW1O7x3MGik.jpg?size=1325x1021&quality=96&sign=3fb7b487ccbfe3b111bd7654f639eb64&type=album)
