@@ -8,7 +8,7 @@ import ru.csomod.notes.dao.NoteDAO;
 import ru.csomod.notes.models.Note;
 
 @Controller
-@RequestMapping("/notes")
+@RequestMapping("/")
 public class NoteController {
 
     private final NoteDAO noteDAO;
@@ -22,48 +22,41 @@ public class NoteController {
      * @param model модель
      * @return путь на html-представление
      */
-    @GetMapping()
+    @GetMapping("")
     public String index(Model model){
         model.addAttribute("notes", noteDAO.index());
-        return "notes/index";
+        return "index";
     }
 
     /**
-     * Получение одной заметки
-     * @param id идентификатор заметки
-     * @param model модель
-     * @return путь на html-представление
+     * Занесение новой заметки в БД
+     * @param note объект заметки
+     * @return ридирект на главную страницу
      */
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("note", noteDAO.show(id));
-        return "notes/show";
-    }
-
-    @GetMapping("/new")
-    public String newNote(@ModelAttribute("note") Note note){
-        return "notes/new";
-    }
-
-    @PostMapping()
+    @PostMapping("/notes")
     public String create(@ModelAttribute("note") Note note){
         noteDAO.safe(note);
         return "redirect:/";
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id){
-        model.addAttribute("note", noteDAO.show(id));
-        return "notes/#" + id;
-    }
-
-    @PatchMapping("/{id}")
+    /**
+     * Изменение заметки
+     * @param note Объект заметки
+     * @param id id заметки
+     * @return ридирект на главную страницу с формой текущей заметки
+     */
+    @PatchMapping("notes/{id}")
     public String update(@ModelAttribute("note") Note note, @PathVariable("id") int id){
         noteDAO.update(id, note);
         return "redirect:/#" + id;
     }
 
-    @GetMapping ("/{id}/delete")
+    /**
+     * Удаление заметки
+     * @param id id заметки
+     * @return ридирект на главную страницу
+     */
+    @GetMapping ("notes/{id}/delete")
     public String delete(@PathVariable("id") int id){
         noteDAO.delete(id);
         return "redirect:/";
