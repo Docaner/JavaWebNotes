@@ -23,7 +23,17 @@ public class NoteDAO {
 
     @PostConstruct
     private void initializer(){
-        jdbcTemplate.update("CREATE TABLE IF NOT EXISTS "+table+" (id SERIAL PRIMARY KEY, header VARCHAR, content VARCHAR)");
+        List<Object> objects = jdbcTemplate.query("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='"+table+"'", new BeanPropertyRowMapper<>(Object.class));
+
+        if(objects.size() <= 0){
+            //jdbcTemplate.update("CREATE TABLE IF NOT EXISTS "+table+" (id SERIAL PRIMARY KEY, header VARCHAR, content VARCHAR)");
+            jdbcTemplate.update("CREATE TABLE "+table+" (id SERIAL PRIMARY KEY, header VARCHAR, content VARCHAR)");
+
+            Note note = new Note();
+            note.setHeader("Продукты");
+            note.setContent("Молоко\nЯйца\nПомидоры\nРыба\nКурица\nКартошка");
+            safe(note);
+        }
     }
 
     public List<Note> index() {
