@@ -2,7 +2,7 @@
 ![](https://sun9-71.userapi.com/impg/bq-V3UKgogmWqX1dyVWsVZED6RxYlMVNLZ9ZPw/uhppUkwKJOU.jpg?size=1920x878&quality=96&sign=d23508b5b1e12f7430d220864aa9f241&type=album)
 Web-приложение заметок на языке Java с использованием фреймворка Spring. Для хранения данных используется PosgreSQL.
 ## Установка
-1) Для удобства запуска необходимо установить [IntelliJ IDEA 2023](https://www.jetbrains.com/ru-ru/idea/)
+1) Для удобства запуска необходимо установить [IntelliJ IDEA 2023](https://www.jetbrains.com/ru-ru/idea/). Желательно использовать Java 17 версии;
 2) Склонировать репозиторий на компьютер
 ```agsl
 $ git clone https://github.com/Docaner/JavaWebNotes.git
