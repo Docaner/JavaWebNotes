@@ -27,7 +27,7 @@ public class NoteDAO {
     }
 
     public List<Note> index() {
-        return jdbcTemplate.query("SELECT * FROM " + table, new BeanPropertyRowMapper<>(Note.class));
+        return jdbcTemplate.query("SELECT * FROM "+table+" ORDER BY id DESC", new BeanPropertyRowMapper<>(Note.class));
     }
 
     public Note show(int id) {

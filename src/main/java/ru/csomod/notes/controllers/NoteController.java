@@ -48,24 +48,24 @@ public class NoteController {
     @PostMapping()
     public String create(@ModelAttribute("note") Note note){
         noteDAO.safe(note);
-        return "redirect:/notes";
+        return "redirect:/";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id){
         model.addAttribute("note", noteDAO.show(id));
-        return "notes/edit";
+        return "notes/#" + id;
     }
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("note") Note note, @PathVariable("id") int id){
         noteDAO.update(id, note);
-        return "redirect:/notes";
+        return "redirect:/#" + id;
     }
 
-    @DeleteMapping("/{id}")
+    @GetMapping ("/{id}/delete")
     public String delete(@PathVariable("id") int id){
         noteDAO.delete(id);
-        return "redirect:/notes";
+        return "redirect:/";
     }
 }

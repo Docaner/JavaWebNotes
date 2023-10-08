@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/form.css"/>
+    <title>Заметки</title>
+</head>
+<body class="page">
+    <div class="note-container">
+
+        <form class="form" th:method="POST" th:action="@{/notes}">
+            <div class="form__group">
+                <input class="form__input form__header" placeholder=" " type="text" th:name="header" th:id="header"/>
+                <label class="form__label" th:for="header">Заголовок</label>
+            </div>
+
+            <div class="form__group">
+                <textarea class="form__input form__area" placeholder=" " type="text" th:name="content" th:id="content"></textarea>
+                <label class="form__label" th:for="content">Описание</label>
+            </div>
+            <input class="form__button" type="submit" value="Создать">
+        </form>
+
+        <form class="form" th:each="note : ${notes}" th:method="PATCH" th:action="@{/notes/{id}(id=${note.getId()})}" th:id="${note.getId()}">
+
+            <div class="form__group">
+                <input class="form__input form__header" placeholder=" " type="text" th:value="${note.header}" th:name="header" th:id="header"/>
+                <label class="form__label" th:for="header">Заголовок</label>
+            </div>
+
+            <div class="form__group">
+                <textarea class="form__input form__area" placeholder=" " type="text" th:text="${note.content}" th:name="content" th:id="content"></textarea>
+                <label class="form__label" th:for="content">Описание</label>
+            </div>
+
+            <div class="form__button__container">
+                <input class="form__button" type="submit" value="Обновить">
+                 <a th:href="@{/notes/{id}/delete(id=${note.getId()})}">
+                    <input class="form__button" type="button" value="Удалить">
+                 </a>
+            </div>
+        </form>
+
+    </div>
+    <script>
+        /*
+        Удаление
+        let form = document.forms[0];
+        let element = form.elements[0];
+        element.value = "DELETE"*/
+        let forms = document.forms;
+        for(let i = 0; i < forms.size; i++){
+            forms[i].addEventListener('focusin', function (){
+                console.log("Форма + i);
+            })
+        }
+    </script>
+</body>
+</html>
